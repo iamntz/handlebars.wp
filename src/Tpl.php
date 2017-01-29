@@ -68,7 +68,7 @@ class Tpl {
 		];
 
 		$paths = array_reverse( apply_filters( 'iamntz/template/directories', $paths ) );
-		$paths = array_unique($paths, SORT_REGULAR);
+		$paths = array_unique( $paths, SORT_REGULAR );
 
 		return array_map( 'trailingslashit', $paths );
 	}
