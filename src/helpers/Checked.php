@@ -5,7 +5,7 @@
  * @package iamntz Handlebars Helpers
  */
 
-namespace iamntz\handlebars\helpers;
+namespace iamntz\handlebarsWP\helpers;
 
 /**
  * Checked

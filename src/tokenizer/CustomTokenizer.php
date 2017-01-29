@@ -3,7 +3,7 @@
  * Custom Handlebars Tokenizer to allow custom template tags
  */
 
-namespace iamntz\handlebars\helpers;
+namespace iamntz\handlebarsWP\helpers;
 
 /**
  * Custom Handlebars Tokenizer

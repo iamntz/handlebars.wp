@@ -15,7 +15,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "iamntz\\handlebars": "src/"
+            "iamntz\\handlebarsWP": "src/"
         }
     }
 }

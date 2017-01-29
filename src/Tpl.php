@@ -5,7 +5,7 @@
  * @package Register Plus Enhanced
  */
 
-namespace iamntz\handlebars;
+namespace iamntz\handlebarsWP;
 
 use \Handlebars\Handlebars;
 use \Handlebars\Loader\FilesystemLoader;
