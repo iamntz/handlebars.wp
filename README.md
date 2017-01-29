@@ -2,6 +2,8 @@
 
 Since dawn of time, WordPress encouraged mixing PHP and HTML code. This should stop! Here is an utility that will help you to deal with some stuff.
 
+This package was built by being actually used and is a wrapper/helper for [Handlebars.php](https://github.com/XaminProject/handlebars.php) adapted to WordPress usage. It provides separation of HTML/PHP, cascade fallback (i.e. you can allow users to overwrite template files) and much more.
+
 ## Installing
 
 The easy way is to install it via composer: `composer require iamntz/handlebars.wp` and `require 'vendor/autoload.php';` in your `functions.php`.
@@ -71,6 +73,16 @@ add_filter('iamntz/templates/engine', function($engine){
 #### A note about custom helpers
 
 The idea of using a template engine is to move the logic out of HTML, so don't overdo it! Although you could do a lot of stuff with helpers, consider moving the logic to your PHP files!
+
+## What about WordPress functions that echoes things?
+
+There are some WordPress functions that echoes things without any built in way of disabling this (e.g. `the_content` or `the_excerpt`). You could use the built in helper to deal with that as well:
+
+```
+\iamntz\handlebarsWP\utils\WP::get()->buffer_the_content()
+```
+
+Basically all functions that are prefixed with `buffer_` will be... well, buffered.
 
 ## Customizing
 
