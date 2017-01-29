@@ -103,7 +103,6 @@ class Tpl {
 		];
 
 		return apply_filters( 'iamntz/template/options', $options );
-		;
 	}
 
 	/**
