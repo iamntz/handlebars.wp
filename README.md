@@ -68,6 +68,10 @@ add_filter('iamntz/templates/engine', function($engine){
 });
 ```
 
+#### A note about custom helpers
+
+The idea of using a template engine is to move the logic out of HTML, so don't overdo it! Although you could do a lot of stuff with helpers, consider moving the logic to your PHP files!
+
 ## Customizing
 
 Of course, you can customize most of the configuration:
