@@ -41,14 +41,14 @@ class Tpl {
 			'partials_loader' => new FilesystemLoader( self::get_template_paths( $partials_path ), $options ),
 		]);
 
-		$engine->addHelper( 'sanitize', new \iamntz\utils\handlebars\Sanitization() );
-		$engine->addHelper( 'esc_attr', new \iamntz\utils\handlebars\Sanitization( 'esc_attr' ) );
-		$engine->addHelper( 'esc_textarea', new \iamntz\utils\handlebars\Sanitization( 'esc_textarea' ) );
-		$engine->addHelper( 'sanitize_text_field', new \iamntz\utils\handlebars\Sanitization( 'sanitize_text_field' ) );
-		$engine->addHelper( 'esc_url', new \iamntz\utils\handlebars\Sanitization( 'esc_url' ) );
+		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
+		$engine->addHelper( 'esc_attr', new helpers\Sanitization( 'esc_attr' ) );
+		$engine->addHelper( 'esc_textarea', new helpers\Sanitization( 'esc_textarea' ) );
+		$engine->addHelper( 'sanitize_text_field', new helpers\Sanitization( 'sanitize_text_field' ) );
+		$engine->addHelper( 'esc_url', new helpers\Sanitization( 'esc_url' ) );
 
-		$engine->addHelper( 'checked_attr', new \iamntz\utils\handlebars\Checked );
-		$engine->addHelper( 'selected_attr', new \iamntz\utils\handlebars\Selected );
+		$engine->addHelper( 'checked_attr', new helpers\Checked );
+		$engine->addHelper( 'selected_attr', new helpers\Selected );
 
 		return apply_filters( 'iamntz/templates/engine', $engine );
 	}
