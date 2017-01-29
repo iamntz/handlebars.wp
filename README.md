@@ -114,3 +114,6 @@ Sometimes you need to add an ID to an element. Instead of manually doing this on
 
 Please note that `_id` is basically a `crc32` hash of your data passed to your template and if that seems too slow to you, you can specify a different algorithm by using `iamntz/template/hash` filter.
 
+## License
+
+MIT.
