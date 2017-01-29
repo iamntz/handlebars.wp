@@ -3,7 +3,7 @@
     "description": "Utilities for Handlebars.php to be used in WordPress development.",
     "type": "library",
     "require": {
-        "xamin/handlebars.php": "^0.10.4"
+        "xamin/handlebars.php": "*"
     },
     "minimum-stability": "dev",
     "license": "MIT",
