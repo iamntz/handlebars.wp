@@ -126,10 +126,10 @@ class Tpl {
 		$content['home_url'] = esc_url( home_url( '/' ) );
 		$content['theme_uri'] = get_stylesheet_directory_uri();
 		$content['parent_theme_uri'] = get_template_directory_uri();
-		$content['is_child_theme?'] = is_child_theme();
 
+		$content['is_child_theme?'] = is_child_theme();
 		$content['is_home?'] = is_front_page() && is_home();
-		$content['admin?'] = is_admin();
+		$content['is_admin?'] = is_admin();
 
 		$engine = self::get_engine( $options );
 
