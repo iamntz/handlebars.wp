@@ -3,6 +3,7 @@
  * Custom Handlebars Tokenizer to allow custom template tags
  *
  * @package HandlebarsWP
+ * @author Ionuț Staicu <handlebarswp@iamntz.com>
  */
 
 namespace iamntz\handlebarsWP\utils;

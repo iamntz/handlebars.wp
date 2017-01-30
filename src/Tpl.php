@@ -2,7 +2,8 @@
 /**
  * Views Wrapper
  *
- * @package Register Plus Enhanced
+ * @package HandlebarsWP
+ * @author Ionuț Staicu <handlebarswp@iamntz.com>
  */
 
 namespace iamntz\handlebarsWP;

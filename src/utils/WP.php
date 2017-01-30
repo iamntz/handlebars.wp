@@ -3,7 +3,7 @@
  * Utility to allow buffering WP functions that outputs stuff.
  *
  * @package HandlebarsWP
- * @author Ionuț Staicu <handlebarswp2iamntz.com>
+ * @author Ionuț Staicu <handlebarswp@iamntz.com>
  */
 
 namespace iamntz\handlebarsWP\utils;

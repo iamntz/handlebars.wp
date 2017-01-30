@@ -2,7 +2,8 @@
 /**
  * WP sanitization helpers
  *
- * @package iamntz Handlebars Helpers
+ * @package HandlebarsWP
+ * @author Ionuț Staicu <handlebarswp@iamntz.com>
  */
 
 namespace iamntz\handlebarsWP\helpers;
