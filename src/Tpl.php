@@ -37,10 +37,10 @@ class Tpl {
 
 		$options = array_merge( self::get_template_options(), $options );
 
-		$engine = new Handlebars([
-			'loader' => new FilesystemLoader( self::get_template_paths(), $options ),
-			'partials_loader' => new FilesystemLoader( self::get_template_paths( $partials_path ), $options ),
-		]);
+		$engine = new Handlebars();
+
+		$engine->setLoader(new FilesystemLoader( self::get_template_paths(), $options ));
+		$engine->setPartialsLoader(new FilesystemLoader( self::get_template_paths( $partials_path ), $options ));
 
 		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
 		$engine->addHelper( 'esc_attr', new helpers\Sanitization( 'esc_attr' ) );
