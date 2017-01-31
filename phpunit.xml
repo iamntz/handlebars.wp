@@ -1,25 +1,10 @@
-<phpunit
-	bootstrap="tests/bootstrap.php"
-        backupGlobals="false"
-        colors="true"
-        >
-    <testsuites>
-        <!-- Default test suite to run all tests -->
-        <testsuite>
-            <directory suffix=".php">tests/phpunit</directory>
-        </testsuite>
-    </testsuites>
-	<listeners>
-		<listener class="SpeedTrapListener" file="../wordpress-develop/tests/phpunit/includes/speed-trap-listener.php">
-			<arguments>
-				<array>
-					<element key="slowThreshold">
-						<integer>150</integer>
-					</element>
-				</array>
-			</arguments>
-		</listener>
-	</listeners>
+<phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" colors="true">
+	<testsuites>
+		<!-- Default test suite to run all tests -->
+		<testsuite>
+			<directory suffix=".php">tests/phpunit</directory>
+		</testsuite>
+	</testsuites>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">src</directory>
