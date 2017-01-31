@@ -7,14 +7,23 @@ notifications:
 matrix:
   fast_finish: true
   env:
-    - WP_VERSION=latest WP_MULTISITE=0
+    - WP_VERSION=latest
     - SNIFF=1
 
   include:
     # aliased to a recent 5.6.x version
     - php: '5.6'
+      env:  WP_MULTISITE=0
+
+    - php: '5.6'
+      env:  WP_MULTISITE=1
+
     # aliased to a recent 7.x version
     - php: '7.0'
+      env:  WP_MULTISITE=0
+
+    - php: '7.0'
+      env:  WP_MULTISITE=1
 
 
 before_script:
