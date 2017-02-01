@@ -139,7 +139,11 @@ class Tpl {
 			$engine->setTokenizer( $tokenizer );
 		}
 
-		return $engine->render( $template, self::get_content_with_id( $content ) );
+		try {
+			return $engine->render( $template, self::get_content_with_id( $content ) );
+		} catch (\InvalidArgumentEBxception $e) {
+			return sprintf( '<strong style="background:#c00; color: #fff; padding: 10px">%s</strong>', $e->getMessage() );
+		}
 	}
 
 	/**
