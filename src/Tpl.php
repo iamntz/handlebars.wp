@@ -39,8 +39,8 @@ class Tpl {
 
 		$engine = new Handlebars();
 
-		$engine->setLoader(new FilesystemLoader( self::get_template_paths(), $options ));
-		$engine->setPartialsLoader(new FilesystemLoader( self::get_template_paths( $partials_path ), $options ));
+		$engine->setLoader( new FilesystemLoader( self::get_template_paths(), $options ) );
+		$engine->setPartialsLoader( new FilesystemLoader( self::get_template_paths( $partials_path ), $options ) );
 
 		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
 		$engine->addHelper( 'esc_attr', new helpers\Sanitization( 'esc_attr' ) );
@@ -50,6 +50,8 @@ class Tpl {
 
 		$engine->addHelper( 'checked_attr', new helpers\Checked );
 		$engine->addHelper( 'selected_attr', new helpers\Selected );
+
+		$engine->addHelper( 'expand_attrs', new helpers\ExpandAttrs );
 
 		return apply_filters( 'iamntz/templates/engine', $engine );
 	}

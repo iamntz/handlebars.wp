@@ -72,6 +72,30 @@ add_filter('iamntz/templates/engine', function($engine){
 });
 ```
 
+#### Attributes
+You can also pass an array to the `expand_attrs` helper that will be unfurled as a string of attributes:
+
+```php
+Tpl::get('template_file', [
+    'attrs' => [
+      'foo' => 'bar',
+      'baz',
+    ]
+  ]);
+```
+
+In your `template_file.hbs` you will use it like this:
+
+```html
+<div {{{expand_attrs attrs}}}></div>
+```
+
+And will expand to this:
+
+```html
+<div foo="bar" baz></div>
+```
+
 #### A note about custom helpers
 
 The idea of using a template engine is to move the logic out of HTML, so don't overdo it! Although you could do a lot of stuff with helpers, consider moving the logic to your PHP files!
