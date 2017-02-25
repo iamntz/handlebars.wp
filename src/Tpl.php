@@ -52,6 +52,7 @@ class Tpl {
 		$engine->addHelper( 'selected_attr', new helpers\Selected );
 
 		$engine->addHelper( 'expand_attrs', new helpers\ExpandAttrs );
+		$engine->addHelper( 'default_value', new helpers\DefaultValue );
 
 		return apply_filters( 'iamntz/templates/engine', $engine );
 	}
