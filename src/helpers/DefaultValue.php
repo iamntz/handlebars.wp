@@ -26,6 +26,6 @@ class DefaultValue implements \Handlebars\Helper {
 	 */
 	public function execute( \Handlebars\Template $template, \Handlebars\Context $context, $args, $source ) {
 		$parsed_args = $template->parseArguments( $args );
-		return ($context->get( $parsed_args[0] )) ?: $context->get( $parsed_args[1] );
+		return !empty( $context->get( $parsed_args[0] ) ) ? $context->get( $parsed_args[0] ) : $context->get( $parsed_args[1] );
 	}
 }
