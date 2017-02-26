@@ -26,7 +26,7 @@ If you're including a partial, that will be search in `views/partials/foo.hbs`  
 
 ## WordPress helpers
 
-For now, there are only a bunch of helpers: various sanitization, `checked_attr` and `selected_attr` for `checkbox|radio` inputs and selects.
+For now, there are only a bunch of helpers: various sanitization, `_checked` and `_selected` for `checkbox|radio` inputs and selects.
 
 #### Select & Checkboxes
 
@@ -46,7 +46,7 @@ Tpl::show('select', [
 
 ```
 {{each options}}
-  <option value="{{ optionValue }}" {{selected_attr optionValue currentValue}}></option>
+  <option value="{{ optionValue }}" {{_selected optionValue currentValue}}></option>
 {{/each}}
 ```
 
@@ -57,12 +57,12 @@ Same works for checkboxes and radios.
 You can use few builtin helpers to sanitize fields.
 
 ```
-<input value="{{{esc_attr myValue}}}">
+<input value="{{{_esc_attr myValue}}}">
 ```
 
-By default, there are only a bunch of functions available: `esc_attr`, `esc_textarea`, `sanitize_text_field` and `esc_url`, but if the desired one isn't present, you could do one of the following:
+By default, there are only a bunch of functions available: `_esc_attr`, `_esc_textarea`, `_sanitize_text_field` and `_esc_url`, but if the desired one isn't present, you could do one of the following:
 
-1. Run a generic helper: `{{sanitize myValue sanitize_key}}` (where `sanitize_key`) is an WP function (however, this will allow you to run **ANY** function, so beware!);
+1. Run a generic helper: `{{_sanitize myValue sanitize_key}}` (where `sanitize_key`) is an WP function (however, this will allow you to run **ANY** function, so beware!);
 2. register a new helper like this:
 
 ```
@@ -73,7 +73,7 @@ add_filter('iamntz/templates/engine', function($engine){
 ```
 
 #### Attributes
-You can also pass an array to the `expand_attrs` helper that will be unfurled as a string of attributes:
+You can also pass an array to the `_expand_attrs` helper that will be unfurled as a string of attributes:
 
 ```php
 Tpl::get('template_file', [

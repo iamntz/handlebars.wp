@@ -42,15 +42,24 @@ class Tpl {
 		$engine->setLoader( new FilesystemLoader( self::get_template_paths(), $options ) );
 		$engine->setPartialsLoader( new FilesystemLoader( self::get_template_paths( $partials_path ), $options ) );
 
+		$engine->addHelper( '_sanitize', new helpers\Sanitization() );
+		$engine->addHelper( '_esc_attr', new helpers\Sanitization( 'esc_attr' ) );
+		$engine->addHelper( '_esc_textarea', new helpers\Sanitization( 'esc_textarea' ) );
+		$engine->addHelper( '_sanitize_text_field', new helpers\Sanitization( 'sanitize_text_field' ) );
+		$engine->addHelper( '_esc_url', new helpers\Sanitization( 'esc_url' ) );
+		$engine->addHelper( '_checked', new helpers\Checked );
+		$engine->addHelper( '_selected', new helpers\Selected );
+		$engine->addHelper( '_expand_attrs', new helpers\ExpandAttrs );
+		$engine->addHelper( '_default', new helpers\DefaultValue );
+
+		// these helpers are here only for legacy, they will be removed at some point in the future.
 		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
 		$engine->addHelper( 'esc_attr', new helpers\Sanitization( 'esc_attr' ) );
 		$engine->addHelper( 'esc_textarea', new helpers\Sanitization( 'esc_textarea' ) );
 		$engine->addHelper( 'sanitize_text_field', new helpers\Sanitization( 'sanitize_text_field' ) );
 		$engine->addHelper( 'esc_url', new helpers\Sanitization( 'esc_url' ) );
-
 		$engine->addHelper( 'checked_attr', new helpers\Checked );
 		$engine->addHelper( 'selected_attr', new helpers\Selected );
-
 		$engine->addHelper( 'expand_attrs', new helpers\ExpandAttrs );
 		$engine->addHelper( 'default_value', new helpers\DefaultValue );
 
