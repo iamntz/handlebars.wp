@@ -133,7 +133,8 @@ class Tpl {
 	 */
 	public static function get( $template, $content = [], $options = [], $tokenizer = null ) {
 		$content = apply_filters( 'iamntz/template/content', $content );
-		$content['i18n'] = apply_filters( 'iamntz/template/i18n_strings', [] );
+		$i18n = ! empty( $content['i18n'] ) ? $content['i18n'] : [];
+		$content['i18n'] = apply_filters( 'iamntz/template/i18n_strings', $i18n );
 
 		$content['home_url'] = esc_url( home_url( '/' ) );
 		$content['theme_uri'] = get_stylesheet_directory_uri();
