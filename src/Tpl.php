@@ -45,7 +45,7 @@ class Tpl {
 		 *
 		 * @var string
 		 */
-		$partials_path = apply_filters( $this->get_namespace() . '/templates/partials_path', 'partials' );
+		$partials_path = apply_filters( self::get_namespace() . '/templates/partials_path', 'partials' );
 
 		$options = array_merge( self::get_template_options(), $options );
 
@@ -75,7 +75,7 @@ class Tpl {
 		$engine->addHelper( 'expand_attrs', new helpers\ExpandAttrs );
 		$engine->addHelper( 'default_value', new helpers\DefaultValue );
 
-		return apply_filters( $this->get_namespace() . '/templates/engine', $engine );
+		return apply_filters( self::get_namespace() . '/templates/engine', $engine );
 	}
 
 
@@ -92,7 +92,7 @@ class Tpl {
 			get_stylesheet_directory(),
 		];
 
-		$paths = array_reverse( apply_filters( $this->get_namespace() . '/template/directories', $paths ) );
+		$paths = array_reverse( apply_filters( self::get_namespace() . '/template/directories', $paths ) );
 		$paths = array_unique( $paths, SORT_REGULAR );
 
 		return array_map( 'trailingslashit', $paths );
@@ -128,7 +128,7 @@ class Tpl {
 			'extension' => '.hbs',
 		];
 
-		return apply_filters( $this->get_namespace() . '/template/options', $options );
+		return apply_filters( self::get_namespace() . '/template/options', $options );
 	}
 
 	/**
@@ -144,9 +144,9 @@ class Tpl {
 	 * @return string compiled template
 	 */
 	public static function get( $template, $content = [], $options = [], $tokenizer = null ) {
-		$content = apply_filters( $this->get_namespace() . '/template/content', $content );
+		$content = apply_filters( self::get_namespace() . '/template/content', $content );
 		$i18n = ! empty( $content['i18n'] ) ? $content['i18n'] : [];
-		$content['i18n'] = apply_filters( $this->get_namespace() . '/template/i18n_strings', $i18n );
+		$content['i18n'] = apply_filters( self::get_namespace() . '/template/i18n_strings', $i18n );
 
 		$content['home_url'] = esc_url( home_url( '/' ) );
 		$content['theme_uri'] = get_stylesheet_directory_uri();
@@ -195,7 +195,7 @@ class Tpl {
 	 * @return array the content data with IDs added.
 	 */
 	public static function get_content_with_id( $content ) {
-		$hash_algorithm = apply_filters( $this->get_namespace() . '/template/hash', 'crc32b' );
+		$hash_algorithm = apply_filters( self::get_namespace() . '/template/hash', 'crc32b' );
 		if ( ! isset( $content['_id'] ) ) {
 			$content['_id'] = 'id-' . hash( $hash_algorithm, serialize( $content ) );
 		}
