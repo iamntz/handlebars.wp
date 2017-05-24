@@ -23,7 +23,7 @@ class Tpl {
 	 *
 	 * @return string
 	 */
-	public function get_namespace()
+	public static function get_namespace()
 	{
 		return 'iamntz';
 	}
