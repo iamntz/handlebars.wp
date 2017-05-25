@@ -15,9 +15,9 @@ The hard way is to download the zip, download Handlebars.php and deal with all t
 ## How to use?
 
 ```php
-\iamntz\handlebarsWP\Tpl::show('foo', []);
+(new \iamntz\handlebarsWP\Tpl )->show('foo', []);
 
-echo \iamntz\handlebarsWP\Tpl::get('foo', []);
+echo (new \iamntz\handlebarsWP\Tpl )->get('foo', []);
 ```
 
 This will search for `views/foo.hbs` in your current theme directory, then in your parent theme directory and, if the file is not found, it will throw an exception.
@@ -31,7 +31,7 @@ For now, there are only a bunch of helpers: various sanitization, `_checked` and
 #### Select & Checkboxes
 
 ```php
-Tpl::show('select', [
+(new \iamntz\handlebarsWP\Tpl )->show('select', [
   'options' => [
     [
       'optionValue' => 'foo'
@@ -76,7 +76,7 @@ add_filter('iamntz/templates/engine', function($engine){
 You can also pass an array to the `_expand_attrs` helper that will be unfurled as a string of attributes:
 
 ```php
-Tpl::get('template_file', [
+(new \iamntz\handlebarsWP\Tpl )->get('template_file', [
     'attrs' => [
       'foo' => 'bar',
       'baz',

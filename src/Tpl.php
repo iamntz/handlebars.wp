@@ -15,7 +15,6 @@ use \Handlebars\Loader\FilesystemLoader;
  * Template system wrapper
  */
 class Tpl {
-
 	/**
 	 * Allows you to set a namespace for hooks
 	 *
@@ -23,8 +22,7 @@ class Tpl {
 	 *
 	 * @return string
 	 */
-	public static function get_namespace()
-	{
+	public function get_namespace() {
 		return 'iamntz';
 	}
 
@@ -37,7 +35,7 @@ class Tpl {
 	 *
 	 * @return Handlebars
 	 */
-	public static function get_engine( $options = [] ) {
+	public function get_engine( $options = [] ) {
 		/**
 		 * Allows you to override the partials subdirectory.
 		 *
@@ -45,14 +43,14 @@ class Tpl {
 		 *
 		 * @var string
 		 */
-		$partials_path = apply_filters( self::get_namespace() . '/templates/partials_path', 'partials' );
+		$partials_path = apply_filters( $this->get_namespace() . '/templates/partials_path', 'partials' );
 
-		$options = array_merge( self::get_template_options(), $options );
+		$options = array_merge( $this->get_template_options(), $options );
 
 		$engine = new Handlebars();
 
-		$engine->setLoader( new FilesystemLoader( self::get_template_paths(), $options ) );
-		$engine->setPartialsLoader( new FilesystemLoader( self::get_template_paths( $partials_path ), $options ) );
+		$engine->setLoader( new FilesystemLoader( $this->get_template_paths(), $options ) );
+		$engine->setPartialsLoader( new FilesystemLoader( $this->get_template_paths( $partials_path ), $options ) );
 
 		$engine->addHelper( '_sanitize', new helpers\Sanitization() );
 		$engine->addHelper( '_esc_attr', new helpers\Sanitization( 'esc_attr' ) );
@@ -75,7 +73,7 @@ class Tpl {
 		$engine->addHelper( 'expand_attrs', new helpers\ExpandAttrs );
 		$engine->addHelper( 'default_value', new helpers\DefaultValue );
 
-		return apply_filters( self::get_namespace() . '/templates/engine', $engine );
+		return apply_filters( $this->get_namespace() . '/templates/engine', $engine );
 	}
 
 
@@ -86,13 +84,13 @@ class Tpl {
 	 *
 	 * @return array the directory paths
 	 */
-	public static function get_paths() {
+	public function get_paths() {
 		$paths = [
 			get_template_directory(),
 			get_stylesheet_directory(),
 		];
 
-		$paths = array_reverse( apply_filters( self::get_namespace() . '/template/directories', $paths ) );
+		$paths = array_reverse( apply_filters( $this->get_namespace() . '/template/directories', $paths ) );
 		$paths = array_unique( $paths, SORT_REGULAR );
 
 		return array_map( 'trailingslashit', $paths );
@@ -108,10 +106,10 @@ class Tpl {
 	 *
 	 * @return array             filtered array.
 	 */
-	public static function get_template_paths( $subdir = '' ) {
+	public function get_template_paths( $subdir = '' ) {
 		$paths = array_map(function( $path ) use ( $subdir ) {
 			return file_exists( $path . "/views/{$subdir}" )  ? $path . "views/{$subdir}" : null;
-		}, self::get_paths());
+		}, $this->get_paths());
 
 		return array_filter( $paths );
 	}
@@ -123,12 +121,12 @@ class Tpl {
 	 *
 	 * @return array
 	 */
-	public static function get_template_options() {
+	public function get_template_options() {
 		$options = [
 			'extension' => '.hbs',
 		];
 
-		return apply_filters( self::get_namespace() . '/template/options', $options );
+		return apply_filters( $this->get_namespace() . '/template/options', $options );
 	}
 
 	/**
@@ -143,10 +141,31 @@ class Tpl {
 	 *
 	 * @return string compiled template
 	 */
-	public static function get( $template, $content = [], $options = [], $tokenizer = null ) {
-		$content = apply_filters( self::get_namespace() . '/template/content', $content );
+	public function get( $template, $content = [], $options = [], $tokenizer = null ) {
+		return $this->render( $template, $content, $options, $tokenizer );
+	}
+
+
+	public function render( $template, $content, $options, $tokenizer ) {
+		$content = $this->parseContent( $content );
+		$engine = $this->get_engine( $options );
+
+		if ( ! is_null( $tokenizer ) ) {
+			$engine->setTokenizer( $tokenizer );
+		}
+
+		try {
+			return $engine->render( $template, $this->get_content_with_id( $content ) );
+		} catch (\InvalidArgumentEBxception $e) {
+			return sprintf( '<strong style="background:#c00; color: #fff; padding: 10px">%s</strong>', $e->getMessage() );
+		}
+	}
+
+
+	public function parseContent( $content ) {
+		$content = apply_filters( $this->get_namespace() . '/template/content', $content );
 		$i18n = ! empty( $content['i18n'] ) ? $content['i18n'] : [];
-		$content['i18n'] = apply_filters( self::get_namespace() . '/template/i18n_strings', $i18n );
+		$content['i18n'] = apply_filters( $this->get_namespace() . '/template/i18n_strings', $i18n );
 
 		$content['home_url'] = esc_url( home_url( '/' ) );
 		$content['theme_uri'] = get_stylesheet_directory_uri();
@@ -156,17 +175,7 @@ class Tpl {
 		$content['is_home?'] = is_front_page() && is_home();
 		$content['is_admin?'] = is_admin();
 
-		$engine = self::get_engine( $options );
-
-		if ( ! is_null( $tokenizer ) ) {
-			$engine->setTokenizer( $tokenizer );
-		}
-
-		try {
-			return $engine->render( $template, self::get_content_with_id( $content ) );
-		} catch (\InvalidArgumentEBxception $e) {
-			return sprintf( '<strong style="background:#c00; color: #fff; padding: 10px">%s</strong>', $e->getMessage() );
-		}
+		return $content;
 	}
 
 	/**
@@ -179,9 +188,9 @@ class Tpl {
 	 * @param  array                 $options override the default template options.
 	 * @param  \Handlebars\Tokenizer $tokenizer override the default tokenizer.
 	 */
-	public static function show( $template, $content = [], $options = [], $tokenizer = null ) {
+	public function show( $template, $content = [], $options = [], $tokenizer = null ) {
 		// @codingStandardsIgnoreStart
-		echo self::get( $template, $content, $options, $tokenizer );
+		echo $this->render( $template, $content, $options, $tokenizer );
 		// @codingStandardsIgnoreEnd
 	}
 
@@ -194,8 +203,8 @@ class Tpl {
 	 *
 	 * @return array the content data with IDs added.
 	 */
-	public static function get_content_with_id( $content ) {
-		$hash_algorithm = apply_filters( self::get_namespace() . '/template/hash', 'crc32b' );
+	public function get_content_with_id( $content ) {
+		$hash_algorithm = apply_filters( $this->get_namespace() . '/template/hash', 'crc32b' );
 		if ( ! isset( $content['_id'] ) ) {
 			$content['_id'] = 'id-' . hash( $hash_algorithm, serialize( $content ) );
 		}
