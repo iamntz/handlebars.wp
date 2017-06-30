@@ -52,6 +52,7 @@ class Tpl {
 		$engine->setLoader( new FilesystemLoader( $this->get_template_paths(), $options ) );
 		$engine->setPartialsLoader( new FilesystemLoader( $this->get_template_paths( $partials_path ), $options ) );
 
+		$engine->addHelper( '_ternary', new helpers\Ternary() );
 		$engine->addHelper( '_sanitize', new helpers\Sanitization() );
 		$engine->addHelper( '_esc_attr', new helpers\Sanitization( 'esc_attr' ) );
 		$engine->addHelper( '_esc_textarea', new helpers\Sanitization( 'esc_textarea' ) );
