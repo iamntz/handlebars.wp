@@ -27,6 +27,18 @@ class Tpl {
 	}
 
 	/**
+	 * Provides a folder where to look for SVG Icons
+	 *
+	 * @method get_icons_path
+	 *
+	 * @return string
+	 */
+	public function get_icons_path()
+	{
+		return get_template_directory() . '/icons';
+	}
+
+	/**
 	 * Get the Handlebars template engine
 	 *
 	 * @method get_engine
@@ -62,6 +74,7 @@ class Tpl {
 		$engine->addHelper( '_selected', new helpers\Selected );
 		$engine->addHelper( '_expand_attrs', new helpers\ExpandAttrs );
 		$engine->addHelper( '_default', new helpers\DefaultValue );
+		$engine->addHelper( '_icon', new helpers\IconHelper($this->get_icons_path()) );
 
 		// these helpers are here only for legacy, they will be removed at some point in the future.
 		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
