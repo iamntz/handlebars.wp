@@ -16,16 +16,10 @@ class Post
 	public function __construct($postID = null)
 	{
 		$this->postID = $postID;
-	}
-
-	public function prepare()
-	{
 		$this->post = get_post($this->postID, 'OBJECT', 'display');
 
 		$this->post->the_content = apply_filters('the_content', $this->post->post_content);
 		$this->post->the_content = str_replace(']]>', ']]&gt;', $this->post->the_content);
-
-		return $this;
 	}
 
 	public function get()
@@ -37,7 +31,7 @@ class Post
 	{
 		$this->post->date = [
 			'iso' => get_the_date('c', $this->post),
-			'display'=> get_the_date($format, $this->post)
+			'display' => get_the_date($format, $this->post),
 		];
 
 		return $this;
