@@ -18,8 +18,10 @@ class Post
 		$this->postID = $postID;
 		$this->post = get_post($this->postID, 'OBJECT', 'display');
 
-		$this->post->the_content = apply_filters('the_content', $this->post->post_content);
-		$this->post->the_content = str_replace(']]>', ']]&gt;', $this->post->the_content);
+		$this->post->content = apply_filters('the_content', $this->post->post_content);
+		$this->post->content = str_replace(']]>', ']]&gt;', $this->post->content);
+		$this->post->title = get_the_title($this->post);
+		$this->post->permalink = get_permalink($this->post);
 	}
 
 	public function get()
@@ -46,8 +48,49 @@ class Post
 
 	public function withAuthor()
 	{
+		$author = get_userdata($this->post->post_author);
+
+		foreach ($author->data as $key => $data) {
+			if (in_array($key, ['user_pass'])) {
+				continue;
+			}
+
+			$cleanAuthor[$key] = apply_filters("get_the_author_{$key}", $data, $this->post->post_author, $this->post->post_author);
+		}
+
+		$cleanAuthor['display_name'] = $author->data->display_name;
+		$cleanAuthor['permalink'] = get_author_posts_url($author->ID, $cleanAuthor['user_nicename']);
+		$cleanAuthor['description'] = get_user_meta($author->ID, 'description', true);
+
+		$this->post->author = $cleanAuthor;
 
 		return $this;
+	}
+
+	public function withAuthorMeta($key, $single = true)
+	{
+		if (empty($this->post->author)) {
+			$this->withAuthor();
+		}
+
+		if (is_string($key)) {
+			$this->_setAuthorMeta($key, $single);
+		} elseif (is_array($key)) {
+			array_walk($key, [$this, '_setAuthorMeta']);
+		}
+
+		return $this;
+	}
+
+	public function _setAuthorMeta($key, $single = true)
+	{
+		$meta = empty($this->post->author['meta']) ? [] : $this->post->author['meta'];
+
+		if (empty($meta[$key])) {
+			$meta[$key] = get_user_meta($this->post->author['ID'], $key, $single);
+		}
+
+		$this->post->author['meta'] = $meta;
 	}
 
 	public function withTerms()
