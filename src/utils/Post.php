@@ -22,6 +22,8 @@ class Post
 		$this->post->content = str_replace(']]>', ']]&gt;', $this->post->content);
 		$this->post->title = get_the_title($this->post);
 		$this->post->permalink = get_permalink($this->post);
+
+		$this->post = apply_filters('iamntz/wp/post', $this->post);
 	}
 
 	public function get()
