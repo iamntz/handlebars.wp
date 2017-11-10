@@ -31,10 +31,10 @@ class Post
 
 	public function withDate($format = null)
 	{
-		$this->post->date = [
+		$this->post->date = apply_filters('iamntz/wp/post-date', [
 			'iso' => get_the_date('c', $this->post),
 			'display' => get_the_date($format, $this->post),
-		];
+		], $this->post);
 
 		return $this;
 	}
@@ -49,7 +49,7 @@ class Post
 			return;
 		}
 
-		$this->post->thumbnail = [
+		$thumb = [
 			'raw' => [
 				'src' => $thumbSrc[0],
 				'w' => $thumbSrc[1],
@@ -58,12 +58,15 @@ class Post
 			'html' => wp_get_attachment_image($thumbID, $size),
 		];
 
+		$this->post->thumbnail = apply_filters('iamntz/wp/post-thumbnail', $thumb, $this->post);
+
 		return $this;
 	}
 
 	public function withPostClass()
 	{
-		$this->post->post_class = implode(' ', get_post_class('', $this->post));
+		$postClass = apply_filters('iamntz/wp/post-class', '', $this->post);
+		$this->post->post_class = implode(' ', get_post_class($postClass, $this->post));
 
 		return $this;
 	}
@@ -84,7 +87,7 @@ class Post
 		$cleanAuthor['permalink'] = get_author_posts_url($author->ID, $cleanAuthor['user_nicename']);
 		$cleanAuthor['description'] = get_user_meta($author->ID, 'description', true);
 
-		$this->post->author = $cleanAuthor;
+		$this->post->author = apply_filters('iamntz/wp/post-author', $cleanAuthor, $this->post);
 
 		return $this;
 	}
@@ -126,7 +129,7 @@ class Post
 		$terms = empty($this->post->terms) ? [] : $this->post->terms;
 		$terms[$taxonomy] = $postTerms;
 
-		$this->post->terms = $terms;
+		$this->post->terms = apply_filters('iamntz/wp/post-terms', $terms, $this->post);
 
 		return $this;
 	}
