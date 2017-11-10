@@ -42,7 +42,21 @@ class Post
 	public function withThumbnail($size = 'thumbnail')
 	{
 		$thumbID = get_post_thumbnail_id($this->post);
-		$this->post->thumbnail = wp_get_attachment_image($thumbID, $size);
+
+		$thumbSrc = wp_get_attachment_image_src($thumbID, $size);
+
+		if (empty($thumbSrc[0])) {
+			return;
+		}
+
+		$this->post->thumbnail = [
+			'raw' => [
+				'src' => $thumbSrc[0],
+				'w' => $thumbSrc[1],
+				'h' => $thumbSrc[2],
+			],
+			'markup' => wp_get_attachment_image($thumbID, $size),
+		];
 
 		return $this;
 	}
