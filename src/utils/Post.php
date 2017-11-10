@@ -48,7 +48,7 @@ class Post
 		$thumbSrc = wp_get_attachment_image_src($thumbID, $size);
 
 		if (empty($thumbSrc[0])) {
-			return;
+			return $this;
 		}
 
 		$thumb = [
