@@ -39,6 +39,14 @@ class Post
 		return $this;
 	}
 
+	public function withThumbnail($size = 'thumbnail')
+	{
+		$thumbID = get_post_thumbnail_id($this->post);
+		$this->post->thumbnail = wp_get_attachment_image($thumbID, $size);
+
+		return $this;
+	}
+
 	public function withPostClass()
 	{
 		$this->post->post_class = implode(' ', get_post_class('', $this->post));
@@ -93,8 +101,19 @@ class Post
 		$this->post->author['meta'] = $meta;
 	}
 
-	public function withTerms()
+	public function withTerms($taxonomy, $args = [])
 	{
+		$postTerms = wp_get_post_terms($this->postID, $taxonomy, $args);
+		$postTerms = array_map(function ($term) {
+			$term->permalink = get_term_link($term);
+			return $term;
+		}, $postTerms);
+
+		$terms = empty($this->post->terms) ? [] : $this->post->terms;
+		$terms[$taxonomy] = $postTerms;
+
+		$this->post->terms = $terms;
+
 		return $this;
 	}
 }
