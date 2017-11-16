@@ -75,6 +75,8 @@ class Tpl {
 		$engine->addHelper( '_expand_attrs', new helpers\ExpandAttrs );
 		$engine->addHelper( '_default', new helpers\DefaultValue );
 		$engine->addHelper( '_icon', new helpers\IconHelper($this->get_icons_path()) );
+		$engine->addHelper( '_the_content', new helpers\TheContent );
+
 
 		// these helpers are here only for legacy, they will be removed at some point in the future.
 		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
