@@ -17,7 +17,14 @@ class TheContent implements \Handlebars\Helper
 
 		$attrs = array_map([$context, 'get'], $parsed_args);
 
-		$content = apply_filters('the_content', $attrs[0]);
+		$content = wptexturize($attrs[0]);
+		// $content = convert_smilies($content);
+		$content = wpautop($content);
+		// $content = shortcode_unautop($content);
+		// $content = prepend_attachment($content);
+		// $content = wp_make_content_images_responsive($content);
+
+		$content = apply_filters('iamntz/handlebars/the_content', $content);
 		return str_replace(']]>', ']]&gt;', $content);
 	}
 }
