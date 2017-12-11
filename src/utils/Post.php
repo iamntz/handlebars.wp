@@ -28,7 +28,7 @@ class Post
 
 	public function get()
 	{
-		return $this->post;
+		return json_decode(json_encode($this->post), true);
 	}
 
 	public function withDate($format = null)
