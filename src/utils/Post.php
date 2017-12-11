@@ -13,6 +13,9 @@ class Post
 {
 	private $post;
 
+	private $_excerptReadMore;
+	private $_excerptLength;
+
 	public function __construct($postID = null)
 	{
 		$this->postID = $postID;
@@ -20,7 +23,6 @@ class Post
 
 		$this->post->content = apply_filters('the_content', $this->post->post_content);
 		$this->post->content = str_replace(']]>', ']]&gt;', $this->post->content);
-		$this->post->excerpt = apply_filters('the_excerpt', get_the_excerpt());
 
 		$this->post->title = get_the_title($this->post);
 		$this->post->permalink = get_permalink($this->post);
@@ -31,6 +33,33 @@ class Post
 	public function get()
 	{
 		return json_decode(json_encode($this->post), true);
+	}
+
+	public function withExcerpt($excerptLength = -1, $readMore = '')
+	{
+		$this->_excerptReadMore = $readMore;
+		$this->_excerptLength = $excerptLength;
+
+		add_filter( 'excerpt_more', [ $this, '_excerptReadMore' ], 20 );
+		add_filter( 'excerpt_length', [ $this, '_excerptLength' ], 20 );
+
+		$this->post->excerpt = apply_filters('the_excerpt', get_the_excerpt());
+
+		remove_filter( 'excerpt_length', [ $this, '_excerptLength' ], 20 );
+		remove_filter( 'excerpt_more', [ $this, '_excerptReadMore' ], 20 );
+
+		return $this;
+	}
+
+	public function _excerptReadMore()
+	{
+		return $this->_excerptReadMore;
+	}
+
+
+	public function _excerptLength()
+	{
+		return $this->_excerptLength;
 	}
 
 	public function withDate($format = null)
