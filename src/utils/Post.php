@@ -20,6 +20,8 @@ class Post
 
 		$this->post->content = apply_filters('the_content', $this->post->post_content);
 		$this->post->content = str_replace(']]>', ']]&gt;', $this->post->content);
+		$this->post->excerpt = apply_filters('the_excerpt', get_the_excerpt());
+
 		$this->post->title = get_the_title($this->post);
 		$this->post->permalink = get_permalink($this->post);
 
