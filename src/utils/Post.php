@@ -35,13 +35,15 @@ class Post
 		return json_decode(json_encode($this->post), true);
 	}
 
-	public function withExcerpt($excerptLength = -1, $readMore = '')
+	public function withExcerpt($excerptLength = false, $readMore = '')
 	{
 		$this->_excerptReadMore = $readMore;
 		$this->_excerptLength = $excerptLength;
 
 		add_filter( 'excerpt_more', [ $this, '_excerptReadMore' ], 20 );
-		add_filter( 'excerpt_length', [ $this, '_excerptLength' ], 20 );
+		if ($this->_excerptLength) {
+			add_filter( 'excerpt_length', [ $this, '_excerptLength' ], 20 );
+		}
 
 		$this->post->excerpt = apply_filters('the_excerpt', get_the_excerpt());
 
