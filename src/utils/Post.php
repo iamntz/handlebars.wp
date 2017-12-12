@@ -74,7 +74,7 @@ class Post
 		return $this;
 	}
 
-	public function withThumbnail($size = 'thumbnail')
+	public function withThumbnail($size = 'thumbnail', $className = '')
 	{
 		$thumbID = get_post_thumbnail_id($this->post);
 
@@ -84,13 +84,17 @@ class Post
 			return $this;
 		}
 
+		$attrs = [
+			'class' => $className
+		];
+
 		$thumb = [
 			'raw' => [
 				'src' => $thumbSrc[0],
 				'w' => $thumbSrc[1],
 				'h' => $thumbSrc[2],
 			],
-			'html' => wp_get_attachment_image($thumbID, $size),
+			'html' => wp_get_attachment_image($thumbID, $size, false, $attrs),
 		];
 
 		$this->post->thumbnail = apply_filters('iamntz/wp/post-thumbnail', $thumb, $this->post);
