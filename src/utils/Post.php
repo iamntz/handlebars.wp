@@ -102,9 +102,9 @@ class Post
 		return $this;
 	}
 
-	public function withPostClass()
+	public function withPostClass($postClass = '')
 	{
-		$postClass = apply_filters('iamntz/wp/post-class', '', $this->post);
+		$postClass = apply_filters('iamntz/wp/post-class', $postClass, $this->post);
 		$this->post->post_class = implode(' ', get_post_class($postClass, $this->post));
 
 		return $this;
