@@ -76,6 +76,8 @@ class Tpl {
 		$engine->addHelper( '_default', new helpers\DefaultValue );
 		$engine->addHelper( '_icon', new helpers\IconHelper($this->get_icons_path()) );
 		$engine->addHelper( '_the_content', new helpers\TheContent );
+		$engine->addHelper( '__pp', new helpers\Dump );
+		$engine->addHelper( '__dump', new helpers\Dump(true) );
 
 
 		// these helpers are here only for legacy, they will be removed at some point in the future.
