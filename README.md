@@ -26,9 +26,9 @@ NB: this part is **totally** optional, but **strongly** recommended, because you
 
 
 ```php
-(new \MyTpl\handlebarsWP\Tpl )->show('foo', []);
+(new \MyTpl\Tpl )->show('foo', []);
 
-echo (new \MyTpl\handlebarsWP\Tpl )->get('foo', []);
+echo (new \MyTpl\Tpl )->get('foo', []);
 ```
 
 This will search for `views/foo.hbs` in your current theme directory, then in your parent theme directory and, if the file is not found, it will throw an exception.
@@ -42,7 +42,7 @@ For now, there are only a bunch of helpers: various sanitization, `_checked` and
 #### Select & Checkboxes
 
 ```php
-(new \MyTpl\handlebarsWP\Tpl )->show('select', [
+(new \MyTpl\Tpl )->show('select', [
   'options' => [
     [
       'optionValue' => 'foo'
@@ -87,7 +87,7 @@ add_filter('iamntz/templates/engine', function($engine){
 You can also pass an array to the `_expand_attrs` helper that will be unfurled as a string of attributes:
 
 ```php
-(new \MyTpl\handlebarsWP\Tpl )->get('template_file', [
+(new \MyTpl\Tpl )->get('template_file', [
     'attrs' => [
       'foo' => 'bar',
       'baz',
@@ -116,7 +116,7 @@ The idea of using a template engine is to move the logic out of HTML, so don't o
 There are some WordPress functions that echoes things without any built in way of disabling this (e.g. `the_content` or `the_excerpt`). You could use the built in helper to deal with that as well:
 
 ```
-\MyTpl\handlebarsWP\utils\WP::get()->buffer_the_content()
+\iamntz\handlebarsWP\WP::get()->buffer_the_content()
 ```
 
 Basically all functions that are prefixed with `buffer_` will be... well, buffered.
