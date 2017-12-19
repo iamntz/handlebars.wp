@@ -12,10 +12,23 @@ The hard way is to download the zip, download Handlebars.php and deal with all t
 
 ## How to use?
 
-```php
-(new \iamntz\handlebarsWP\Tpl )->show('foo', []);
 
-echo (new \iamntz\handlebarsWP\Tpl )->get('foo', []);
+The best way to isolate things out is to extend the `Tpl` class and override methods. The minimum is to override the `get_namespace` method:
+
+```php
+class MyTpl extends \iamntz\handlebarsWP\Tpl {
+  public function get_namespace() {
+    return 'my_namespace';
+  }
+```
+
+NB: this part is **totally** optional, but **strongly** recommended, because you'll be sure you won't have any conflicts with plugins and themes that are also using this awesome package.
+
+
+```php
+(new \MyTpl\handlebarsWP\Tpl )->show('foo', []);
+
+echo (new \MyTpl\handlebarsWP\Tpl )->get('foo', []);
 ```
 
 This will search for `views/foo.hbs` in your current theme directory, then in your parent theme directory and, if the file is not found, it will throw an exception.
@@ -29,7 +42,7 @@ For now, there are only a bunch of helpers: various sanitization, `_checked` and
 #### Select & Checkboxes
 
 ```php
-(new \iamntz\handlebarsWP\Tpl )->show('select', [
+(new \MyTpl\handlebarsWP\Tpl )->show('select', [
   'options' => [
     [
       'optionValue' => 'foo'
@@ -74,7 +87,7 @@ add_filter('iamntz/templates/engine', function($engine){
 You can also pass an array to the `_expand_attrs` helper that will be unfurled as a string of attributes:
 
 ```php
-(new \iamntz\handlebarsWP\Tpl )->get('template_file', [
+(new \MyTpl\handlebarsWP\Tpl )->get('template_file', [
     'attrs' => [
       'foo' => 'bar',
       'baz',
@@ -85,7 +98,7 @@ You can also pass an array to the `_expand_attrs` helper that will be unfurled a
 In your `template_file.hbs` you will use it like this:
 
 ```html
-<div {{{expand_attrs attrs}}}></div>
+<div {{{_expand_attrs attrs}}}></div>
 ```
 
 And will expand to this:
@@ -103,7 +116,7 @@ The idea of using a template engine is to move the logic out of HTML, so don't o
 There are some WordPress functions that echoes things without any built in way of disabling this (e.g. `the_content` or `the_excerpt`). You could use the built in helper to deal with that as well:
 
 ```
-\iamntz\handlebarsWP\utils\WP::get()->buffer_the_content()
+\MyTpl\handlebarsWP\utils\WP::get()->buffer_the_content()
 ```
 
 Basically all functions that are prefixed with `buffer_` will be... well, buffered.
@@ -117,7 +130,7 @@ Of course, you can customize most of the configuration:
 If you're using this package in your plugin, then you may want to add the plugin path to be search for:
 
 ```php
-add_filter('iamntz/template/directories', function($paths)
+add_filter('my_namespace/template/directories', function($paths)
 {
   $paths[] = plugin_dir_path( __FILE__ );
   return $paths;
@@ -128,14 +141,14 @@ This way, you will allow your users to customize plugin views. Isn't that cool?
 
 #### Changing default extension
 
-By default, the template extension is `.hbs`, but if you want to change that, you can use the `iamntz/template/options` filter to do it (and change a bunch of other options as well).
+By default, the template extension is `.hbs`, but if you want to change that, you can use the `my_namespace/template/options` filter to do it (and change a bunch of other options as well).
 
 #### i18n
 
 "But what about translation?" You may ask. Fear not, you're also covered!
 
 ```php
-add_filter('iamntz/template/i18n_strings', function($strings)
+add_filter('my_namespace/template/i18n_strings', function($strings)
 {
   $strings['hello'] = __('hello world!');
   return $strings;
@@ -148,7 +161,7 @@ Then, in your template, just use `{{{ i18n.hello }}}`. Easy peasy, right?
 
 Sometimes you need to add an ID to an element. Instead of manually doing this on every single template, you can already use either `{{ _id }}` or, if you prefer, a ridiculous long id, `{{ _uniqid }}`.
 
-Please note that `_id` is basically a `crc32` hash of your data passed to your template and if that seems too slow to you, you can specify a different algorithm by using `iamntz/template/hash` filter.
+Please note that `_id` is basically a `crc32` hash of your data passed to your template and if that seems too slow to you, you can specify a different algorithm by using `my_namespace/template/hash` filter.
 
 ## Found this useful?
 
