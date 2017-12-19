@@ -1,5 +1,3 @@
-Build status: ![](https://travis-ci.org/iamntz/handlebars.wp.svg?branch=master)
-
 ## What is this?
 
 Since dawn of time, WordPress encouraged mixing PHP and HTML code. This should stop! Here is an utility that will help you to deal with some stuff.
