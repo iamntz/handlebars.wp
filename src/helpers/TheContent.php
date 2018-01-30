@@ -20,7 +20,7 @@ class TheContent implements \Handlebars\Helper
 		$content = wptexturize($attrs[0]);
 		// $content = convert_smilies($content);
 		$content = wpautop($content);
-		// $content = shortcode_unautop($content);
+		$content = shortcode_unautop($content);
 		// $content = prepend_attachment($content);
 		// $content = wp_make_content_images_responsive($content);
 
