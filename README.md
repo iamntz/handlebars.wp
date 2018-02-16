@@ -4,6 +4,51 @@ Since dawn of time, WordPress encouraged mixing PHP and HTML code. This should s
 
 This package was built by being actually used and is a wrapper/helper for [Handlebars.php](https://github.com/XaminProject/handlebars.php) adapted to WordPress usage. It provides separation of HTML/PHP, cascade fallback (i.e. you can allow users to overwrite template files) and much more.
 
+So instead of one file like this:
+
+```
+while( have_posts() ){ the_post();
+  ?>
+  <h2><?php the_title(); ?></h2>
+  <?php if(is_single()) { ?>
+    <div class="theContent"><?php the_content ?></div>
+  <?php } else { ?>
+    <div class="theExcerpt"><?php the_excerpt(); ?></div>
+  <?php }
+  <?php
+}
+```
+
+You'll have two files:
+
+
+```
+// index.php
+use \iamntz\handlebarsWP\WP;
+(new \MyTpl\Tpl )->show('index', [
+  'the_content' => WP::get()->buffer_the_content(),
+  'the_excerpt' => WP::get()->buffer_the_excerpt(),
+  'title' => WP::get()->buffer_the_title(),
+  'is_single' => is_single()
+]);
+```
+
+```
+// index.hbs
+<h2>{{{ title }}}</h2>
+
+{{#if is_single}}
+  <div class="theContent">{{{ the_content }}}</div>
+{{else}}
+  <div class="theExcerpt">{{{ the_excerpt }}}</div>
+{{/if}}
+```
+
+Better, right? You already have the responsabilities separated; you know that in your `php` file you'll find **only** PHP code. Arguably, this looks like learning a whole new language, but really, you need to spend like 15 minutes to get used to handlebars syntax!
+
+Bonus points: you can reuse these templates in JavaScript!
+
+
 ## Installing
 
 The easy way is to install it via composer: `composer require iamntz/handlebars.wp` and `require 'vendor/autoload.php';` in your `functions.php`.
