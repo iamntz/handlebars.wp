@@ -3,7 +3,7 @@
     "description": "Utilities for Handlebars.php to be used in WordPress development.",
     "type": "library",
     "require": {
-        "xamin/handlebars.php": "dev-master"
+        "xamin/handlebars.php": "*"
     },
     "license": "MIT",
     "authors": [
