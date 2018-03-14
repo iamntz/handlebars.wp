@@ -5,7 +5,6 @@
     "require": {
         "xamin/handlebars.php": "dev-master"
     },
-    "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
         {
