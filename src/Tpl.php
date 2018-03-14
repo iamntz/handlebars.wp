@@ -70,6 +70,7 @@ class Tpl {
 		$engine->addHelper( '_esc_textarea', new helpers\Sanitization( 'esc_textarea' ) );
 		$engine->addHelper( '_sanitize_text_field', new helpers\Sanitization( 'sanitize_text_field' ) );
 		$engine->addHelper( '_esc_url', new helpers\Sanitization( 'esc_url' ) );
+		$engine->addHelper( '_urlencode', new helpers\Sanitization( 'urlencode' ) );
 		$engine->addHelper( '_checked', new helpers\Checked );
 		$engine->addHelper( '_selected', new helpers\Selected );
 		$engine->addHelper( '_expand_attrs', new helpers\ExpandAttrs );
