@@ -24,6 +24,9 @@ class Post
 		if ($withContent) {
 			$this->post->content = apply_filters('the_content', $this->post->post_content);
 			$this->post->content = str_replace(']]>', ']]&gt;', $this->post->content);
+		} else {
+			$this->post->post_content = null;
+			$this->post->content = null;
 		}
 
 		$this->post->title = get_the_title($this->post);
