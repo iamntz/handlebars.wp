@@ -203,8 +203,8 @@ class Post
 		$terms = empty($this->post->terms) ? [] : $this->post->terms;
 		$terms[$taxonomy] = $postTerms;
 
-		$terms = apply_filters('iamntz/wp/post-terms', $terms, $this->post);
-		$this->post->terms = apply_filters("iamntz/wp/post-terms/post-type={$this->post->post_type}", $terms, $this->post);
+		$terms = apply_filters('iamntz/wp/post-terms', $terms, $taxonomy, $this->post);
+		$this->post->terms = apply_filters("iamntz/wp/post-terms/post-type={$this->post->post_type}", $terms, $taxonomy, $this->post);
 
 		return $this;
 	}
