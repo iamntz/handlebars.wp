@@ -105,7 +105,7 @@ class Post
 		];
 
 		$thumb = apply_filters('iamntz/wp/post-thumbnail', $thumb, $this->post);
-		$this->post->thumbnail = apply_filters('iamntz/wp/post-thumbnail/post-type={$this->post->post_type}', $thumb, $this->post);
+		$this->post->thumbnail = apply_filters("iamntz/wp/post-thumbnail/post-type={$this->post->post_type}", $thumb, $this->post);
 
 		return $this;
 	}
@@ -113,7 +113,7 @@ class Post
 	public function withPostClass($postClass = '')
 	{
 		$postClass = apply_filters('iamntz/wp/post-class', $postClass, $this->post);
-		$postClass = apply_filters('iamntz/wp/post-class/post-type={$this->post->post_type}', $postClass, $this->post);
+		$postClass = apply_filters("iamntz/wp/post-class/post-type={$this->post->post_type}", $postClass, $this->post);
 		$this->post->post_class = implode(' ', get_post_class($postClass, $this->post));
 
 		return $this;
@@ -136,7 +136,7 @@ class Post
 		$cleanAuthor['description'] = get_user_meta($author->ID, 'description', true);
 
 		$cleanAuthor = apply_filters('iamntz/wp/post-author', $cleanAuthor, $this->post);
-		$this->post->author = apply_filters('iamntz/wp/post-author/post-type={$this->post->post_type}', $cleanAuthor, $this->post);
+		$this->post->author = apply_filters("iamntz/wp/post-author/post-type={$this->post->post_type}", $cleanAuthor, $this->post);
 
 		return $this;
 	}
@@ -191,6 +191,9 @@ class Post
 
 	public function withTerms($taxonomy, $args = [])
 	{
+		$taxonomy = apply_filters('iamntz/wp/post-terms/taxonomy', $taxonomy);
+		$taxonomy = apply_filters("iamntz/wp/post-terms/taxonomy/post-type={$this->post->post_type}", $taxonomy);
+
 		$postTerms = wp_get_post_terms($this->postID, $taxonomy, $args);
 		$postTerms = array_map(function ($term) {
 			$term->permalink = get_term_link($term);
@@ -201,7 +204,7 @@ class Post
 		$terms[$taxonomy] = $postTerms;
 
 		$terms = apply_filters('iamntz/wp/post-terms', $terms, $this->post);
-		$this->post->terms = apply_filters('iamntz/wp/post-terms/post-type={$this->post->post_type}', $terms, $this->post);
+		$this->post->terms = apply_filters("iamntz/wp/post-terms/post-type={$this->post->post_type}", $terms, $this->post);
 
 		return $this;
 	}
