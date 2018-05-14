@@ -192,7 +192,7 @@ class Post
 	public function withTerms($taxonomy, $args = [])
 	{
 		$taxonomy = apply_filters('iamntz/wp/post-terms/taxonomy', $taxonomy, $this->post);
-		$taxonomy = apply_filters("iamntz/wp/post-terms/taxonomy/post-type={$this->post->post_type}", $taxonomy);
+		$taxonomy = apply_filters("iamntz/wp/post-terms/taxonomy/post-type={$this->post->post_type}", $taxonomy, $this->post);
 
 		$postTerms = wp_get_post_terms($this->postID, $taxonomy, $args);
 		$postTerms = array_map(function ($term) {
