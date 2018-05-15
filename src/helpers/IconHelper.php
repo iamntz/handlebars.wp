@@ -35,7 +35,7 @@ class IconHelper implements \Handlebars\Helper
 
 		$attrs = array_map([$context, 'get'], $parsed_args);
 
-		$icon = $this->getIconMarkup($attrs[0]);
+		$icon = $this->getIconMarkup($attrs[0], $attrs[1] ?? '');
 		if (!$icon) {
 			return $attrs[0];
 		}
@@ -43,7 +43,7 @@ class IconHelper implements \Handlebars\Helper
 		return $icon;
 	}
 
-	private function getIconMarkup($iconName)
+	private function getIconMarkup($iconName, $className)
 	{
 		$iconFile = $this->path . "/{$iconName}.svg";
 
@@ -51,6 +51,6 @@ class IconHelper implements \Handlebars\Helper
 			return false;
 		}
 
-		return sprintf('<span class="svg-icon icon-%s">%s</span>', $iconName, file_get_contents($iconFile));
+		return sprintf('<span class="svg-icon icon-%s %s">%s</span>', $iconName, $className, file_get_contents($iconFile));
 	}
 }
