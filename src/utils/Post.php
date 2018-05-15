@@ -31,13 +31,13 @@ class Post
 
 		$this->post->title = get_the_title($this->post);
 		$this->post->permalink = get_permalink($this->post);
-
-		$this->post = apply_filters('iamntz/wp/post', $this->post);
-		$this->post = apply_filters("iamntz/wp/post/post-type={$this->post->post_type}", $this->post);
 	}
 
 	public function get()
 	{
+		$this->post = apply_filters('iamntz/wp/post', $this->post);
+		$this->post = apply_filters("iamntz/wp/post/post-type={$this->post->post_type}", $this->post);
+
 		return json_decode(json_encode($this->post), true);
 	}
 
