@@ -64,6 +64,13 @@ class Tpl {
 		$engine->setLoader( new FilesystemLoader( $this->get_template_paths(), $options ) );
 		$engine->setPartialsLoader( new FilesystemLoader( $this->get_template_paths( $partials_path ), $options ) );
 
+		$this->register_helpers($engine);
+
+		return apply_filters( $this->get_namespace() . '/templates/engine', $engine );
+	}
+
+	protected function register_helpers($engine)
+	{
 		$engine->addHelper( '_ternary', new helpers\Ternary() );
 		$engine->addHelper( '_sanitize', new helpers\Sanitization() );
 		$engine->addHelper( '_esc_attr', new helpers\Sanitization( 'esc_attr' ) );
@@ -80,7 +87,6 @@ class Tpl {
 		$engine->addHelper( '__pp', new helpers\Dump );
 		$engine->addHelper( '__dump', new helpers\Dump(true) );
 
-
 		// these helpers are here only for legacy, they will be removed at some point in the future.
 		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
 		$engine->addHelper( 'esc_attr', new helpers\Sanitization( 'esc_attr' ) );
@@ -92,7 +98,7 @@ class Tpl {
 		$engine->addHelper( 'expand_attrs', new helpers\ExpandAttrs );
 		$engine->addHelper( 'default_value', new helpers\DefaultValue );
 
-		return apply_filters( $this->get_namespace() . '/templates/engine', $engine );
+		do_action( $this->get_namespace() . '/templates/after_register_helpers', $engine );
 	}
 
 
