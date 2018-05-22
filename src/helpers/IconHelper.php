@@ -45,12 +45,15 @@ class IconHelper implements \Handlebars\Helper
 
 	private function getIconMarkup($iconName, $className)
 	{
-		$iconFile = $this->path . "/{$iconName}.svg";
-
-		if (!file_exists($iconFile)) {
-			return false;
+		if (!is_array($this->path)) {
+			$this->path = [$this->path];
 		}
 
-		return sprintf('<span class="svg-icon icon-%s %s">%s</span>', $iconName, $className, file_get_contents($iconFile));
+		foreach ($this->path as $path) {
+			$iconFile = $path . "/{$iconName}.svg";
+			if (file_exists($iconFile)) {
+				return sprintf('<span class="svg-icon icon-%s %s">%s</span>', $iconName, $className, file_get_contents($iconFile));
+			}
+		}
 	}
 }
