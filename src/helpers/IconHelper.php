@@ -14,7 +14,11 @@ class IconHelper implements \Handlebars\Helper
 
 	public function __construct($path)
 	{
-		$this->path = trailingslashit($path);
+		if (!is_array($path)) {
+			$path = [$path];
+		}
+
+		$this->path = array_map('trailingslashit', $path);
 	}
 	/**
 	 * Handlebars Helper to be executed
@@ -36,6 +40,7 @@ class IconHelper implements \Handlebars\Helper
 		$attrs = array_map([$context, 'get'], $parsed_args);
 
 		$icon = $this->getIconMarkup($attrs[0], $attrs[1] ?? '');
+
 		if (!$icon) {
 			return $attrs[0];
 		}
@@ -45,10 +50,6 @@ class IconHelper implements \Handlebars\Helper
 
 	private function getIconMarkup($iconName, $className)
 	{
-		if (!is_array($this->path)) {
-			$this->path = [$this->path];
-		}
-
 		foreach ($this->path as $path) {
 			$iconFile = $path . "/{$iconName}.svg";
 			if (file_exists($iconFile)) {
