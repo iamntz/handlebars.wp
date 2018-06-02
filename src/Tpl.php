@@ -89,17 +89,6 @@ class Tpl {
 		$engine->addHelper( '__pp', new helpers\Dump );
 		$engine->addHelper( '__dump', new helpers\Dump(true) );
 
-		// these helpers are here only for legacy, they will be removed at some point in the future.
-		$engine->addHelper( 'sanitize', new helpers\Sanitization() );
-		$engine->addHelper( 'esc_attr', new helpers\Sanitization( 'esc_attr' ) );
-		$engine->addHelper( 'esc_textarea', new helpers\Sanitization( 'esc_textarea' ) );
-		$engine->addHelper( 'sanitize_text_field', new helpers\Sanitization( 'sanitize_text_field' ) );
-		$engine->addHelper( 'esc_url', new helpers\Sanitization( 'esc_url' ) );
-		$engine->addHelper( 'checked_attr', new helpers\Checked );
-		$engine->addHelper( 'selected_attr', new helpers\Selected );
-		$engine->addHelper( 'expand_attrs', new helpers\ExpandAttrs );
-		$engine->addHelper( 'default_value', new helpers\DefaultValue );
-
 		do_action( $this->get_namespace() . '/templates/after_register_helpers', $engine );
 	}
 
