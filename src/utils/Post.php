@@ -22,11 +22,8 @@ class Post
 		$this->post = get_post($this->postID, 'OBJECT', 'display');
 
 		if ($withContent) {
-			$this->post->content = apply_filters('the_content', $this->post->post_content);
-			$this->post->content = str_replace(']]>', ']]&gt;', $this->post->content);
-		} else {
-			$this->post->post_content = null;
-			$this->post->content = null;
+			$this->post->content = WP::get()->buffer_the_content();
+			$this->post->post_content = $this->post->content;
 		}
 
 		$this->post->title = get_the_title($this->post);
@@ -51,7 +48,7 @@ class Post
 			add_filter('excerpt_length', [$this, '_excerptLength'], 20);
 		}
 
-		$this->post->excerpt = apply_filters('the_excerpt', get_the_excerpt());
+		$this->post->excerpt = WP::get()->buffer_the_excerpt();
 
 		remove_filter('excerpt_length', [$this, '_excerptLength'], 20);
 		remove_filter('excerpt_more', [$this, '_excerptReadMore'], 20);
