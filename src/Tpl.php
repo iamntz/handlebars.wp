@@ -85,6 +85,7 @@ class Tpl {
 		$engine->addHelper( '_icon', new helpers\IconHelper($this->get_icons_path()) );
 		$engine->addHelper( '_the_content', new helpers\TheContent );
 		$engine->addHelper( '_i18n', new helpers\I18N );
+		$engine->addHelper( '_partial', new helpers\DynamicPartial );
 
 		$engine->addHelper( '__pp', new helpers\Dump );
 		$engine->addHelper( '__dump', new helpers\Dump(true) );
