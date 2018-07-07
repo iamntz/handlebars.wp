@@ -217,7 +217,7 @@ class Post
 		$this->withEditLink();
 
 		if (!empty($this->post->editLink)) {
-			$this->post->editButton = sprintf('<a href="%s" class="%s">%s</a>', $this->post->editLink, $className, $anchor);
+			$this->post->editButton = sprintf('<a href="%s" class="%s" target="_blank">%s</a>', $this->post->editLink, $className, $anchor);
 		}
 
 		return $this;
