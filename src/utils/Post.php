@@ -205,4 +205,21 @@ class Post
 
 		return $this;
 	}
+
+	public function withEditLink()
+	{
+		$this->editLink = get_edit_post_link($this->post->ID);
+		return $this;
+	}
+
+	public function withEditButton($anchor = 'Edit', $className = 'edit-entry-button')
+	{
+		$this->withEditLink();
+
+		if (!empty($this->editLink)) {
+			$this->editButton = sprintf('<a href="%s" class="%s">%s</a>', $this->editLink, $className, $anchor);
+		}
+
+		return $this;
+	}
 }
