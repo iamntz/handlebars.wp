@@ -208,7 +208,7 @@ class Post
 
 	public function withEditLink()
 	{
-		$this->editLink = get_edit_post_link($this->post->ID);
+		$this->post->editLink = get_edit_post_link($this->post->ID);
 		return $this;
 	}
 
@@ -216,8 +216,8 @@ class Post
 	{
 		$this->withEditLink();
 
-		if (!empty($this->editLink)) {
-			$this->editButton = sprintf('<a href="%s" class="%s">%s</a>', $this->editLink, $className, $anchor);
+		if (!empty($this->post->editLink)) {
+			$this->post->editButton = sprintf('<a href="%s" class="%s">%s</a>', $this->post->editLink, $className, $anchor);
 		}
 
 		return $this;
