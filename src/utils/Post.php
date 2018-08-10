@@ -73,7 +73,9 @@ class Post
 			'display' => get_the_date($format, $this->post),
 		], $this->post);
 
-		$this->post->date = apply_filters("iamntz/wp/post-date/post-type={$this->post->post_type}", $date, $this->post);
+		$date = apply_filters("iamntz/wp/post-date/post-type={$this->post->post_type}", $date, $this->post);
+
+		$this->post->date = apply_filters("iamntz/wp/post-date/post-type=all", $date, $this->post);
 
 		return $this;
 	}
@@ -102,7 +104,9 @@ class Post
 		];
 
 		$thumb = apply_filters('iamntz/wp/post-thumbnail', $thumb, $this->post);
-		$this->post->thumbnail = apply_filters("iamntz/wp/post-thumbnail/post-type={$this->post->post_type}", $thumb, $this->post);
+		$thumb = apply_filters("iamntz/wp/post-thumbnail/post-type={$this->post->post_type}", $thumb, $this->post);
+
+		$this->post->thumbnail = apply_filters("iamntz/wp/post-thumbnail/post-type=all", $thumb, $this->post);
 
 		return $this;
 	}
@@ -111,6 +115,8 @@ class Post
 	{
 		$postClass = apply_filters('iamntz/wp/post-class', $postClass, $this->post);
 		$postClass = apply_filters("iamntz/wp/post-class/post-type={$this->post->post_type}", $postClass, $this->post);
+		$postClass = apply_filters("iamntz/wp/post-class/post-type=all", $postClass, $this->post);
+
 		$this->post->post_class = implode(' ', get_post_class($postClass, $this->post));
 
 		return $this;
@@ -133,7 +139,8 @@ class Post
 		$cleanAuthor['description'] = get_user_meta($author->ID, 'description', true);
 
 		$cleanAuthor = apply_filters('iamntz/wp/post-author', $cleanAuthor, $this->post);
-		$this->post->author = apply_filters("iamntz/wp/post-author/post-type={$this->post->post_type}", $cleanAuthor, $this->post);
+		$cleanAuthor = apply_filters("iamntz/wp/post-author/post-type={$this->post->post_type}", $cleanAuthor, $this->post);
+		$this->post->author = apply_filters("iamntz/wp/post-author/post-type=all", $cleanAuthor, $this->post);
 
 		return $this;
 	}
@@ -190,6 +197,7 @@ class Post
 	{
 		$taxonomy = apply_filters('iamntz/wp/post-terms/taxonomy', $taxonomy, $this->post);
 		$taxonomy = apply_filters("iamntz/wp/post-terms/taxonomy/post-type={$this->post->post_type}", $taxonomy, $this->post);
+		$taxonomy = apply_filters("iamntz/wp/post-terms/taxonomy/post-type=all", $taxonomy, $this->post);
 
 		$postTerms = wp_get_post_terms($this->postID, $taxonomy, $args);
 		$postTerms = array_map(function ($term) {
@@ -201,7 +209,8 @@ class Post
 		$terms[$taxonomy] = $postTerms;
 
 		$terms = apply_filters('iamntz/wp/post-terms', $terms, $taxonomy, $this->post);
-		$this->post->terms = apply_filters("iamntz/wp/post-terms/post-type={$this->post->post_type}", $terms, $taxonomy, $this->post);
+		$terms = apply_filters("iamntz/wp/post-terms/post-type={$this->post->post_type}", $terms, $taxonomy, $this->post);
+		$this->post->terms = apply_filters("iamntz/wp/post-terms/post-type=all", $terms, $taxonomy, $this->post);
 
 		return $this;
 	}
