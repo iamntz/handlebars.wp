@@ -48,7 +48,8 @@ class Post
 			add_filter('excerpt_length', [$this, '_excerptLength'], 20);
 		}
 
-		$this->post->excerpt = apply_filters('the_excerpt', get_the_excerpt());
+		$excerpt = !empty($this->post->post_excerpt) ? $this->post->post_excerpt : $this->post->post_content;
+		$this->post->excerpt = $this->post->post_excerpt = apply_filters('get_the_excerpt', $excerpt, $this->post);
 
 		remove_filter('excerpt_length', [$this, '_excerptLength'], 20);
 		remove_filter('excerpt_more', [$this, '_excerptReadMore'], 20);
