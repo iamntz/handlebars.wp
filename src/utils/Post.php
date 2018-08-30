@@ -48,7 +48,7 @@ class Post
 			add_filter('excerpt_length', [$this, '_excerptLength'], 20);
 		}
 
-		$this->post->excerpt = WP::get()->buffer_the_excerpt();
+		$this->post->excerpt = apply_filters('the_excerpt', get_the_excerpt());
 
 		remove_filter('excerpt_length', [$this, '_excerptLength'], 20);
 		remove_filter('excerpt_more', [$this, '_excerptReadMore'], 20);
