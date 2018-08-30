@@ -49,6 +49,17 @@ class Post
 		}
 
 		$excerpt = !empty($this->post->post_excerpt) ? $this->post->post_excerpt : $this->post->post_content;
+
+		$excerpt = strip_shortcodes( $excerpt );
+
+		$excerpt = apply_filters( 'the_content', $excerpt );
+		$excerpt = str_replace(']]>', ']]&gt;', $excerpt);
+
+		$excerpt_length = apply_filters( 'excerpt_length', 55 );
+		$excerpt_more = apply_filters( 'excerpt_more', ' ' . '[&hellip;]' );
+
+		$excerpt = wp_trim_words( $excerpt, $excerpt_length, $excerpt_more );
+
 		$this->post->excerpt = $this->post->post_excerpt = apply_filters('get_the_excerpt', $excerpt, $this->post);
 
 		remove_filter('excerpt_length', [$this, '_excerptLength'], 20);
