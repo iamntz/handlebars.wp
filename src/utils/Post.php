@@ -30,10 +30,14 @@ class Post
 		$this->post->permalink = get_permalink($this->post);
 	}
 
-	public function get()
+	public function get($asObject = false)
 	{
 		$this->post = apply_filters('iamntz/wp/post', $this->post);
 		$this->post = apply_filters("iamntz/wp/post/post-type={$this->post->post_type}", $this->post);
+
+		if ($asObject) {
+			return $this->post;
+		}
 
 		return json_decode(json_encode($this->post), true);
 	}
