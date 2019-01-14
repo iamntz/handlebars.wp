@@ -21,6 +21,8 @@ class Post
 		$this->postID = $postID;
 		$this->post = get_post($this->postID, 'OBJECT', 'display');
 
+		$this->post->thumbnails = [];
+
 		if ($withContent) {
 			$this->post->content = WP::get()->buffer_the_content();
 			$this->post->post_content = $this->post->content;
@@ -96,33 +98,39 @@ class Post
 		return $this;
 	}
 
-	public function withThumbnail($size = 'thumbnail', $className = '')
+	public function withThumbnail($sizes = 'thumbnail', $className = '')
 	{
 		$thumbID = get_post_thumbnail_id($this->post);
 
-		$thumbSrc = wp_get_attachment_image_src($thumbID, $size);
-
-		if (empty($thumbSrc[0])) {
-			return $this;
+		if (gettype($sizes) !== 'array') {
+			$sizes = [$sizes];
 		}
+		foreach ($sizes as $size) {
+			$thumbSrc = wp_get_attachment_image_src($thumbID, $size);
 
-		$attrs = [
-			'class' => $className,
-		];
+			if (empty($thumbSrc[0])) {
+				return $this;
+			}
 
-		$thumb = [
-			'raw' => [
-				'src' => $thumbSrc[0],
-				'w' => $thumbSrc[1],
-				'h' => $thumbSrc[2],
-			],
-			'html' => wp_get_attachment_image($thumbID, $size, false, $attrs),
-		];
+			$attrs = [
+				'class' => $className,
+			];
 
-		$thumb = apply_filters('iamntz/wp/post-thumbnail', $thumb, $this->post);
-		$thumb = apply_filters("iamntz/wp/post-thumbnail/post-type={$this->post->post_type}", $thumb, $this->post);
+			$thumb = [
+				'raw' => [
+					'src' => $thumbSrc[0],
+					'w' => $thumbSrc[1],
+					'h' => $thumbSrc[2],
+				],
+				'html' => wp_get_attachment_image($thumbID, $size, false, $attrs),
+			];
 
-		$this->post->thumbnail = apply_filters("iamntz/wp/post-thumbnail/post-type=all", $thumb, $this->post);
+			$thumb = apply_filters('iamntz/wp/post-thumbnail', $thumb, $this->post, $size);
+			$thumb = apply_filters("iamntz/wp/post-thumbnail/post-type={$this->post->post_type}", $thumb, $this->post, $size);
+
+			$this->post->thumbnail = apply_filters("iamntz/wp/post-thumbnail/post-type=all", $thumb, $this->post, $size);
+			$this->post->thumbnails[$size] = apply_filters("iamntz/wp/post-thumbnails/post-type=all", $thumb, $this->post, $size);
+		}
 
 		return $this;
 	}
