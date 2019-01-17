@@ -164,7 +164,7 @@ class Tpl {
 
 
 	public function render( $template, $content, $options, $tokenizer ) {
-		$content = $this->parseContent( $content );
+		$content = utils\TplStrings::parseContent( $content, $this->get_namespace() );
 		$engine = $this->get_engine( $options );
 
 		if ( ! is_null( $tokenizer ) ) {
@@ -176,23 +176,6 @@ class Tpl {
 		} catch (\InvalidArgumentEBxception $e) {
 			return sprintf( '<strong style="background:#c00; color: #fff; padding: 10px">%s</strong>', $e->getMessage() );
 		}
-	}
-
-
-	public function parseContent( $content ) {
-		$content = apply_filters( $this->get_namespace() . '/template/content', $content );
-		$i18n = ! empty( $content['i18n'] ) ? $content['i18n'] : [];
-		$content['i18n'] = apply_filters( $this->get_namespace() . '/template/i18n_strings', $i18n );
-
-		$content['home_url'] = esc_url( home_url( '/' ) );
-		$content['theme_uri'] = get_stylesheet_directory_uri();
-		$content['parent_theme_uri'] = get_template_directory_uri();
-
-		$content['is_child_theme?'] = is_child_theme();
-		$content['is_home?'] = is_front_page() && is_home();
-		$content['is_admin?'] = is_admin();
-
-		return $content;
 	}
 
 	/**
