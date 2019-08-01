@@ -1,20 +1,26 @@
 {
-    "name": "iamntz/handlebars.wp",
-    "description": "Utilities for Handlebars.php to be used in WordPress development.",
-    "type": "library",
-    "require": {
-        "xamin/handlebars.php": "*"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Ionut Staicu",
-            "email": "github@iamntz.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "iamntz\\handlebarsWP\\": "src"
-        }
+  "name": "iamntz/handlebars.wp",
+  "description": "Utilities for Handlebars.php to be used in WordPress development.",
+  "type": "library",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/iamntz/handlebars.php"
     }
+  ],
+  "require": {
+    "iamntz/handlebars.php": "dev-master"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ionut Staicu",
+      "email": "github@iamntz.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "iamntz\\handlebarsWP\\": "src"
+    }
+  }
 }
