@@ -3,7 +3,7 @@
  * WP Content Parser Filter
  *
  * @package HandlebarsWP
- * @author Ionuț Staicu <handlebarswp@iamntz.com>
+ * @author  Ionuț Staicu <handlebarswp@iamntz.com>
  */
 
 namespace iamntz\handlebarsWP\helpers;
@@ -41,7 +41,11 @@ class TheContent implements \Handlebars\Helper
 		}
 
 		if (empty($namedArgs['no-responsive-images'])) {
-			$content = wp_filter_content_tags($content);
+			if (function_exists('wp_filter_content_tags')) {
+				$content = wp_filter_content_tags($content);
+			} else {
+				$content = wp_make_content_images_responsive($content);
+			}
 		}
 
 		$content = apply_filters('iamntz/handlebars/the_content', $content);
