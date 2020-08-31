@@ -41,7 +41,7 @@ class TheContent implements \Handlebars\Helper
 		}
 
 		if (empty($namedArgs['no-responsive-images'])) {
-			$content = wp_make_content_images_responsive($content);
+			$content = wp_filter_content_tags($content);
 		}
 
 		$content = apply_filters('iamntz/handlebars/the_content', $content);
